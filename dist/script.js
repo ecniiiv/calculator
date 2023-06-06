@@ -21,23 +21,32 @@ numberButtons.forEach((btn) => {
 
 operatorButtons.forEach((btn) => {
   btn.addEventListener("click", () => {
-    operator = btn.dataset.op;
-
-    prevNum = getValueFrom(currNum, prevNum);
-    display(prevInput, `${prevNum} ${operator}`);
-    currNum = clearValue();
-    clearDisplay(currInput);
-    console.log(currNum);
+    if (currNum === "") return;
+    if (prevNum === "") {
+      operator = btn.dataset.op;
+      prevNum = getValueFrom(currNum, prevNum);
+      display(prevInput, `${prevNum} ${operator}`);
+      currNum = clearValue();
+      clearDisplay(currInput);
+      console.log(currNum);
+    } else {
+      result = operate(currNum, operator, prevNum);
+      prevNum = clearValue();
+      currNum = getValueFrom(result, currNum);
+      clearDisplay(currInput);
+      clearDisplay(prevInput);
+      display(currInput, currNum);
+    }
   });
 });
 
 equalsButton.addEventListener("click", () => {
   result = operate(currNum, operator, prevNum);
   prevNum = clearValue();
-  currNum = clearValue();
+  currNum = getValueFrom(result, currNum);
   clearDisplay(currInput);
   clearDisplay(prevInput);
-  display(currInput, result);
+  display(currInput, currNum);
 });
 
 clearButton.addEventListener("click", () => {
