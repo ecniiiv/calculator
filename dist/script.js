@@ -14,6 +14,10 @@ let result = "";
 
 numberButtons.forEach((btn) => {
   btn.addEventListener("click", () => {
+    if (currNum.length >= 15) return;
+    if (btn.dataset.number == ".") {
+      if (currNum.includes(".")) return;
+    }
     currNum += btn.dataset.number;
     display(currInput, currNum);
   });
@@ -41,6 +45,7 @@ operatorButtons.forEach((btn) => {
 });
 
 equalsButton.addEventListener("click", () => {
+  if (currNum === "") return;
   result = operate(currNum, operator, prevNum);
   prevNum = clearValue();
   currNum = getValueFrom(result, currNum);
@@ -59,6 +64,7 @@ clearButton.addEventListener("click", () => {
 delButton.addEventListener("click", () => {
   deleteFrom(currInput);
   currNum = deleteValueFrom(currNum);
+  result = deleteValueFrom(result);
 });
 
 function getValueFrom(target, currentValue) {
@@ -91,7 +97,7 @@ function deleteFrom(targetDisplay) {
 }
 
 function deleteValueFrom(targetValue) {
-  return (targetValue = targetValue.split("").slice(0, -1).join(""));
+  return (targetValue = targetValue.toString().split("").slice(0, -1).join(""));
 }
 
 function operate(number, operator, secondNumber) {
@@ -105,3 +111,17 @@ function operate(number, operator, secondNumber) {
     return +secondNumber / +number;
   }
 }
+
+// extras
+let buttonsObj = [numberButtons, operatorButtons];
+let otherButtons = [clearButton, delButton, equalsButton];
+
+buttonsObj.forEach((setOfButtons) => {
+  setOfButtons.forEach((button) => {
+    button.classList.add("active:bg-slate-500", "active:text-teal-50");
+  });
+});
+
+otherButtons.forEach((button) => {
+  button.classList.add("active:bg-slate-500", "active:text-teal-50");
+});
