@@ -18,7 +18,7 @@ numberButtons.forEach((btn) => {
     if (isOperationMade) {
       currNum = clearValue();
       clearDisplay(currInput);
-      isOperationMade = !isOperationMade;
+      isOperationMade = false;
     }
     if (currNum.length >= 15) return;
     if (btn.dataset.number == ".") {
@@ -31,7 +31,7 @@ numberButtons.forEach((btn) => {
 
 operatorButtons.forEach((btn) => {
   btn.addEventListener("click", () => {
-    if (currNum === "") return;
+    if (currNum === "" || currNum === ".") return;
     if (prevNum === "") {
       operator = btn.dataset.op;
       prevNum = getValueFrom(currNum, prevNum);
@@ -52,7 +52,7 @@ operatorButtons.forEach((btn) => {
 });
 
 equalsButton.addEventListener("click", () => {
-  if (currNum === "") return;
+  if (currNum === "" || currNum === "." || prevNum === "") return;
   result = operate(currNum, operator, prevNum);
   isOperationMade = true;
   prevNum = clearValue();
