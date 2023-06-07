@@ -11,9 +11,15 @@ let currNum = "";
 let prevNum = "";
 let operator = "";
 let result = "";
+let isOperationMade = false;
 
 numberButtons.forEach((btn) => {
   btn.addEventListener("click", () => {
+    if (isOperationMade) {
+      currNum = clearValue();
+      clearDisplay(currInput);
+      isOperationMade = !isOperationMade;
+    }
     if (currNum.length >= 15) return;
     if (btn.dataset.number == ".") {
       if (currNum.includes(".")) return;
@@ -35,6 +41,7 @@ operatorButtons.forEach((btn) => {
       console.log(currNum);
     } else {
       result = operate(currNum, operator, prevNum);
+      isOperationMade = true;
       prevNum = clearValue();
       currNum = getValueFrom(result, currNum);
       clearDisplay(currInput);
@@ -47,6 +54,7 @@ operatorButtons.forEach((btn) => {
 equalsButton.addEventListener("click", () => {
   if (currNum === "") return;
   result = operate(currNum, operator, prevNum);
+  isOperationMade = true;
   prevNum = clearValue();
   currNum = getValueFrom(result, currNum);
   clearDisplay(currInput);
